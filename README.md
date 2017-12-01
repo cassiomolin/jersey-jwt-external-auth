@@ -1,4 +1,7 @@
-# REST API with Google and Facebook authentication using Jersey and CDI
+# REST API with Facebook and Google authentication using Jersey and CDI
+
+[![Build Status](https://travis-ci.org/cassiomolin/jersey-jwt-external-auth.svg?branch=master)](https://travis-ci.org/cassiomolin/jersey-jwt-external-auth)
+[![MIT Licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cassiomolin/jersey-jwt-external-auth/master/LICENSE.txt)
 
 This example application demonstrates how to perform authentication using external providers such as Google and Facebook in a REST application using:
 
