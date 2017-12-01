@@ -1,6 +1,6 @@
 # REST API with Google and Facebook authentication using Jersey and CDI
 
-This example application demonstrates how to authenticate using external providers (Google and Facebook) in a REST application using:
+This example application demonstrates how to perform authentication using external providers such as Google and Facebook in a REST application using:
 
  - **Jersey:** JAX-RS reference implementation for creating RESTful web services in Java.
  - **Jackson:** JSON parser for Java.
@@ -9,19 +9,21 @@ This example application demonstrates how to authenticate using external provide
  - **JJWT:** Library for creating and parsing JSON Web Tokens (JWTs) in Java.
  - **ScribeJava:** OAuth client library.
 
-This example also use to token-based authentication to authenticate the requests bewteen the client and the server.
+This example also use token-based authentication to authenticate the requests between the client and the server.
 
 ## How token-based authentication works?
 
 In token-based authentication, the client exchanges _hard credentials_ (such as username and password) for a piece of data called _token_. Instead of sending the hard credentials in every request, the client sends a token to the server to perform authentication and authorisation.
 
-In this example, instead of exchanging hard credentials with the application, the user user authenticates using an external provider (currently Facebook and Google are supported). If the authentication with the external provider succeeds and permissions are granted to the application, data coming from the external provider (such as first name, last name and email) will be used to register a user in the application. A JWT token will be returned to the client to authenticate the next requests.
+In this example, instead of exchanging hard credentials with the application, the user authenticates against an external provider (currently Facebook and Google are supported). If the authentication with the external provider succeeds and permissions are granted to the application, data coming from the external provider (such as first name, last name and email) will be used to register a user in the application.
 
-The application allows the user to unlink an external provider. However it won't invalidate the JWT token.
+A JWT token will be returned to the client to authenticate the next requests.
+
+The application allows the user to unlink an authentication provider. However it won't invalidate the JWT token. That is, unlinking the authentication provider won't log the user out.
 
 ## Building and running this application
 
-Once this application depends on external authentication providers, you must obtain an OAuth 2.0 _client ID_ and _client secret_ with those providers before building and running the application. See details for each provider:
+This application depends on external authentication providers that use OAuth 2.0. You must obtain a _client ID_ and _client secret_ with those providers before building and running the application. See details for each provider:
 
 - [Facebook](https://developers.facebook.com/docs/apps/register)
 - [Google](https://developers.google.com/identity/sign-in/web/devconsole-project)
@@ -107,7 +109,7 @@ curl -X POST -Ls -o /dev/null -w %{url_effective} \
   'http://localhost:8080/api/auth/google'
 ```
 
-Copy the URL and paste in your browser, input Google credentials if required, grant access to the application. Google should perform a request to the callback URL and a JWT token issued by the application should be returned in the response. Use this token to authenticate next requests to the API.
+Copy the URL and paste it in your browser, input Google credentials if required, grant access to the application. Google should perform a request to the callback URL and a JWT token issued by the application should be returned in the response. Use this token to authenticate next requests to the API.
 
 If there's no user registered with the email returned from Google, a new user will be registered in the application using data coming from the Facebook (first name, last name and email).
 
@@ -135,7 +137,7 @@ curl -X DELETE \
   -H 'Authorization: Bearer <authentication-token>'
 ```
 
-This operation won't log the user out (that is, invalidate the JWT token).
+This operation won't log the user out from that application (that is, it won't invalidate the JWT token).
 
 ### Unlink Google account
 
@@ -148,7 +150,7 @@ curl -X DELETE \
   -H 'Authorization: Bearer <authentication-token>'
 ```
 
-This operation won't log the user out (that is, invalidate the JWT token).
+This operation won't log the user out from that application (that is, it won't invalidate the JWT token).
 
 
 [Postman]: https://www.getpostman.com/
