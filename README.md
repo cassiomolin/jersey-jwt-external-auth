@@ -42,7 +42,7 @@ This URLs must be registered with Facebook and Google, respectively.
 For Facebook, add the _Facebook Login_ product to your application and, under _Settings_, set the _Valid OAuth redirect URIs_.
 For Google, in the API Console, under _Credentials_, you can set _Authorised redirect URIs_.
 
-In the `application.properties`, make sure the value of the following properties match the callback URLs registered with your providers:
+In the [`application.properties`](/src/main/resources/application.properties), make sure the value of the following properties match the callback URLs registered with your providers:
 
 - `authentication.provider.facebook.callbackUrl`
 - `authentication.provider.google.callbackUrl`
