@@ -20,7 +20,7 @@ In token-based authentication, the client exchanges _hard credentials_ (such as 
 
 In this example, instead of exchanging hard credentials with the application, the user authenticates against an external provider (currently Facebook and Google are supported). If the authentication with the external provider succeeds and permissions are granted to the application, data coming from the external provider (such as first name, last name and email) will be used to register a user in the application.
 
-A JWT token will be returned to the client to authenticate the next requests.
+A JWT token will be returned to the client to authenticate the subsequent requests. This is needed so that the API can establish the identity of the user.
 
 The application allows the user to unlink an authentication provider. However it won't invalidate the JWT token. That is, unlinking the authentication provider won't log the user out.
 
