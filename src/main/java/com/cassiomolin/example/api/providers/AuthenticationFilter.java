@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.security.Principal;
 
 /**
- * Authentication filter that checks the authentication token send in the {@code Authorization} header of the request.
+ * Authentication filter that validates the authentication token sent in the {@code Authorization} header of the request.
  *
  * @author cassiomolin
  */

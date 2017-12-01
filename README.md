@@ -71,20 +71,85 @@ The uber-jar is created with the [Apache Maven Shade Plugin](https://maven.apach
 
 Find below a quick description of the most relevant classes of this application:
 
-- [`FacebookAuthenticationResource`](/src/main/java/com/cassiomolin/example/api/resources/FacebookAuthenticationResource.java): REST resource for authenticating a user using Facebook authentication provider. If the authentication with Facebook succeeds and permissions are granted to the application, a JWT token will be returned to the client to authenticate the next requests.
-
-- [`GoogleAuthenticationResource`](/src/main/java/com/cassiomolin/example/api/resources/FacebookAuthenticationResource.java): Similar to the resource above.
-
-- [`AuthenticationFilter`](/src/main/java/com/cassiomolin/example/api/providers/AuthenticationFilter.java): [`ContainerRequestFilter`](https://docs.oracle.com/javaee/7/api/javax/ws/rs/container/ContainerRequestFilter.html) implementation for extracting the authentication token from the `Authorization` header of the HTTP request.
-
 - [`FacebookAuthenticationService`](/src/main/java/com/cassiomolin/example/service/external/FacebookAuthenticationService.java): Authentication service for Facebook. Encapsulates the OAuth 2.0 flow.
 
 - [`GoogleAuthenticationService`](/src/main/java/com/cassiomolin/example/service/external/GoogleAuthenticationService.java): Similar to the service defined above.
 
-[RFC 7519]: https://tools.ietf.org/html/rfc7519
-[jwt.io]: http://jwt.io/
-[jti claim]: https://tools.ietf.org/html/rfc7519#section-4.1.7
+- [`FacebookAuthenticationResource`](/src/main/java/com/cassiomolin/example/api/resources/FacebookAuthenticationResource.java): REST resource for authenticating a user using Facebook authentication provider. If the authentication with Facebook succeeds and permissions are granted to the application, a JWT token will be returned to the client to authenticate the next requests.
+
+- [`GoogleAuthenticationResource`](/src/main/java/com/cassiomolin/example/api/resources/FacebookAuthenticationResource.java): Similar to the resource above.
+
+- [`AuthenticationFilter`](/src/main/java/com/cassiomolin/example/api/providers/AuthenticationFilter.java): [`ContainerRequestFilter`](https://docs.oracle.com/javaee/7/api/javax/ws/rs/container/ContainerRequestFilter.html) implementation for validating the authentication token sent in the `Authorization` header of the HTTP request.
+
+## REST API overview
+
+See the [curl][] scripts below with the REST API supported operations:
+
+### Authenticate and link Facebook account
+
+Get the OAuth 2.0 authorization URL for Facebook:
+
+```bash
+curl -X POST -Ls -o /dev/null -w %{url_effective} \
+  'http://localhost:8080/api/auth/facebook'
+```
+
+Copy the URL and paste in your browser, input Facebook credentials if required, grant access to the application. Facebook should perform a request to the callback URL and a JWT token issued by the application should be returned in the response. Use this token to authenticate next requests to the API.
+
+If there's no user registered with the email returned from Facebook, a new user will be registered in the application using data coming from the Facebook (first name, last name and email).
+
+### Authenticate and link Google account
+
+Get the OAuth 2.0 authorization URL for Google:
+
+```bash
+curl -X POST -Ls -o /dev/null -w %{url_effective} \
+  'http://localhost:8080/api/auth/google'
+```
+
+Copy the URL and paste in your browser, input Google credentials if required, grant access to the application. Google should perform a request to the callback URL and a JWT token issued by the application should be returned in the response. Use this token to authenticate next requests to the API.
+
+If there's no user registered with the email returned from Google, a new user will be registered in the application using data coming from the Facebook (first name, last name and email).
+
+### Get current user
+
+Get details from the current user. A valid JWT token is required to perform this operation.
+
+```bash
+curl -X GET \
+  'http://localhost:8080/api/users/me' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer <authentication-token>'
+```
+
+For demonstration purpose, this operation returns the access tokens from the authentication providers. You probably don't want to do it in a real world application.
+
+### Unlink Facebook account
+
+Unlink the Facebook account (simply delete the access token) from the current user. A valid JWT token is required to perform this operation.
+
+```bash
+curl -X DELETE \
+  'http://localhost:8080/api/auth/facebook' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer <authentication-token>'
+```
+
+This operation won't log the user out (that is, invalidate the JWT token).
+
+### Unlink Google account
+
+Unlink the Google account (simply delete the access token) from the current user. A valid JWT token is required to perform this operation.
+
+```bash
+curl -X DELETE \
+  'http://localhost:8080/api/auth/google' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer <authentication-token>'
+```
+
+This operation won't log the user out (that is, invalidate the JWT token).
+
+
 [Postman]: https://www.getpostman.com/
-[answer]: https://stackoverflow.com/a/26778123/1426227
-[example-with-spring-security]: https://github.com/cassiomolin/jersey-jwt-springsecurity
 [curl]: https://curl.haxx.se/
