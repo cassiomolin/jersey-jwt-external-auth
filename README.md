@@ -114,7 +114,7 @@ curl -X POST -Ls -o /dev/null -w %{url_effective} \
 
 Copy the URL and paste it in your browser, input Google credentials if required, grant access to the application. Google should perform a request to the callback URL and a JWT token issued by the application should be returned in the response. Use this token to authenticate next requests to the API.
 
-If there's no user registered with the email returned from Google, a new user will be registered in the application using data coming from the Facebook (first name, last name and email).
+If there's no user registered with the email returned from Google, a new user will be registered in the application using data coming from the Google (first name, last name and email).
 
 ### Get current user
 
