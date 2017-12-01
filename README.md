@@ -21,11 +21,12 @@ The application allows the user to unlink an external provider. However it won't
 
 ## Building and running this application
 
-Once this application depends on external authentication providers, you must obtain an OAuth 2.0 client ID and secret with those providers before building an running the application.
+Once this application depends on external authentication providers, you must obtain an OAuth 2.0 _client ID_ and _client secret_ with those providers before building and running the application. See details for each provider:
 
-For Facebook, refer to this [page](https://developers.facebook.com/docs/apps/register). For Google, refer to this [page](https://developers.google.com/identity/sign-in/web/devconsole-project).
+- [Facebook](https://developers.facebook.com/docs/apps/register)
+- [Google](https://developers.google.com/identity/sign-in/web/devconsole-project)
 
-Then update the `application.properties` file, setting the following values:
+Then update the [`application.properties`](/src/main/resources/application.properties) file, setting the following values:
 
 - `authentication.provider.facebook.clientId`
 - `authentication.provider.facebook.clientSecret`
@@ -37,12 +38,12 @@ As part of the OAuth 2.0 authorization flow, a callback URL is required. If you 
 - `http://localhost:8080/api/auth/facebook/callback`
 - `http://localhost:8080/api/auth/google/callback`
 
-This URLs must be registered with Facebook and Google, respectively.
+This URLs must be registered with Facebook and Google, respectively:
 
-For Facebook, add the _Facebook Login_ product to your application and, under _Settings_, set the _Valid OAuth redirect URIs_.
-For Google, in the API Console, under _Credentials_, you can set _Authorised redirect URIs_.
+- For Facebook, add the _Facebook Login_ product to your application and, under _Settings_, set the _Valid OAuth redirect URIs_.
+- For Google, in the API Console, under _Credentials_, you can set _Authorised redirect URIs_.
 
-In the [`application.properties`](/src/main/resources/application.properties), make sure the value of the following properties match the callback URLs registered with your providers:
+In the [`application.properties`](/src/main/resources/application.properties), make sure that the values of the following properties match the callback URLs registered with the authentication providers:
 
 - `authentication.provider.facebook.callbackUrl`
 - `authentication.provider.google.callbackUrl`
