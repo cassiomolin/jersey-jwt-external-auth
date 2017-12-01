@@ -67,6 +67,19 @@ This application uses [Undertow](http://undertow.io/), a lighweight Servlet cont
 
 The uber-jar is created with the [Apache Maven Shade Plugin](https://maven.apache.org/plugins/maven-shade-plugin/), that provides the capability to create an executable jar including its dependencies.
 
+## Application overview
+
+Find below a quick description of the most relevant classes of this application:
+
+- [`FacebookAuthenticationResource`](/src/main/java/com/cassiomolin/example/api/resources/FacebookAuthenticationResource.java): REST resource for authenticating a user using Facebook authentication provider. If the authentication with Facebook succeeds and permissions are granted to the application, a JWT token will be returned to the client to authenticate the next requests.
+
+- [`GoogleAuthenticationResource`](/src/main/java/com/cassiomolin/example/api/resources/FacebookAuthenticationResource.java): Similar to the resource above.
+
+- [`AuthenticationFilter`](/src/main/java/com/cassiomolin/example/api/providers/AuthenticationFilter.java): [`ContainerRequestFilter`](https://docs.oracle.com/javaee/7/api/javax/ws/rs/container/ContainerRequestFilter.html) implementation for extracting the authentication token from the `Authorization` header of the HTTP request.
+
+- [`FacebookAuthenticationService`](/src/main/java/com/cassiomolin/example/service/external/FacebookAuthenticationService.java): Authentication service for Facebook. Encapsulates the OAuth 2.0 flow.
+
+- [`GoogleAuthenticationService`](/src/main/java/com/cassiomolin/example/service/external/GoogleAuthenticationService.java): Similar to the service defined above.
 
 [RFC 7519]: https://tools.ietf.org/html/rfc7519
 [jwt.io]: http://jwt.io/
